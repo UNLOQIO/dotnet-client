@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnloqAPI", "UnloqAPI\UnloqAPI.csproj", "{1AE387D5-BCEA-4B82-9314-44A766279417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{2FC7D825-8FDF-44B6-AE9E-F8E4CB267C67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AE387D5-BCEA-4B82-9314-44A766279417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE387D5-BCEA-4B82-9314-44A766279417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE387D5-BCEA-4B82-9314-44A766279417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE387D5-BCEA-4B82-9314-44A766279417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC7D825-8FDF-44B6-AE9E-F8E4CB267C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC7D825-8FDF-44B6-AE9E-F8E4CB267C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC7D825-8FDF-44B6-AE9E-F8E4CB267C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC7D825-8FDF-44B6-AE9E-F8E4CB267C67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
