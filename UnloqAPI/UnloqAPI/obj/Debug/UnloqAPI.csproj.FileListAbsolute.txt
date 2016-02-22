@@ -1,5 +1,0 @@
-c:\users\bogdanbitfoi\documents\visual studio 2013\Projects\UnloqAPI\UnloqAPI\bin\Debug\UnloqAPI.dll
-c:\users\bogdanbitfoi\documents\visual studio 2013\Projects\UnloqAPI\UnloqAPI\bin\Debug\UnloqAPI.pdb
-c:\users\bogdanbitfoi\documents\visual studio 2013\Projects\UnloqAPI\UnloqAPI\obj\Debug\UnloqAPI.dll
-c:\users\bogdanbitfoi\documents\visual studio 2013\Projects\UnloqAPI\UnloqAPI\obj\Debug\UnloqAPI.pdb
-C:\Users\bogdanbitfoi\documents\visual studio 2013\Projects\UnloqAPI\UnloqAPI\obj\Debug\UnloqAPI.csprojResolveAssemblyReference.cache
