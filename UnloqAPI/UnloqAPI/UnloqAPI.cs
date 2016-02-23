@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace UnloqAPI
@@ -37,7 +41,7 @@ namespace UnloqAPI
         {
             if (string.IsNullOrEmpty(token)) throw new Exception("Token is NOT optional!");
 
-            var endpoint = Utils.CreateGetLoginEndpoint();
+            var endpoint = Utils.CreateGetLoginTokenEndpoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
             Utils.PrepareHeaders(message, _apiKey, _apiSecret);
             message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForGetToken(token, sessionData));
@@ -46,6 +50,34 @@ namespace UnloqAPI
             var resp = await Utils.BuildUGetTokenResponse(result);
 
             return resp;
+        }
+
+        public async void SetTokenData(string token, SessionData sessionData)
+        {
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(sessionData.SessionId)) throw new Exception("Token or Session ID is missing!");
+
+            var endpoint = Utils.CreateSetTokenDataEndpoint();
+            var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
+            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForSetToken(token, sessionData));
+            await _httpClient.SendAsync(message);
+        }
+
+        public bool VerifySign(string signature, string path, Dictionary<string, string> data)
+        {
+            if (string.IsNullOrEmpty(signature)) return false;
+
+            var signed = new Uri(path).PathAndQuery;
+            var keysList = data.Keys.ToList();
+            keysList.Sort();
+            var sorted = keysList.ToDictionary(element => element, element => data[element]);
+
+            signed = sorted.Aggregate(signed, (current, element) => current + (element.Key + element.Value));
+
+            var sha = new HMACSHA256(Encoding.UTF8.GetBytes(_apiSecret));
+            var hashedSign = sha.ComputeHash(Encoding.UTF8.GetBytes(signed));
+
+            return signature == Encoding.UTF8.GetString(hashedSign);
         }
     }
 }

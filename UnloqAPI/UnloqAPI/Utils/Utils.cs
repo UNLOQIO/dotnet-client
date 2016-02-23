@@ -39,6 +39,16 @@ namespace UnloqAPI
             };
         }
 
+        public static Dictionary<string, string> ConstructPayloadForSetToken(string token, SessionData sessionData)
+        {
+            return new Dictionary<string, string>
+            {
+                { "token", token },
+                { "sid", sessionData.SessionId },
+                { "duration", sessionData == null ? "" : sessionData.Duration.ToString() }
+            };
+        }
+
         public static async Task<UAuthResponse> BuildUAuthResponse(HttpResponseMessage response)
         {
             return await response.Content.ReadAsAsync<UAuthResponse>();
@@ -49,9 +59,14 @@ namespace UnloqAPI
             return await response.Content.ReadAsAsync<UGetTokenResponse>();
         }
 
-        public static object CreateGetLoginEndpoint()
+        public static string CreateGetLoginTokenEndpoint()
         {
             return "v" + Constants.Version + "/token";
+        }
+
+        public static string CreateSetTokenDataEndpoint()
+        {
+            return "v" + Constants.Version + "/token/session";
         }
     }
 }
