@@ -1,5 +1,6 @@
 ﻿namespace UnloqAPI
 {
+    //Special response, for GetLoginToken method
     public class UGetTokenResponse : IUResponse
     {
         public string Type { get; set; }

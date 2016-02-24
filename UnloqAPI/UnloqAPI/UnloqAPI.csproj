@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils\AuthData.cs" />
+    <Compile Include="Utils\UData.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\GetTokenData.cs" />
     <Compile Include="Utils\SessionData.cs" />

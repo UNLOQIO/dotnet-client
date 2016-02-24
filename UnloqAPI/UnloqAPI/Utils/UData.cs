@@ -1,6 +1,6 @@
 ﻿namespace UnloqAPI
 {
-    public class AuthData
+    public class UData
     {
         public string Id { get; set; }
         public string Token { get; set; }

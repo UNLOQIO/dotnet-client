@@ -6,15 +6,35 @@ namespace UnloqAPI
 {
     public class Utils
     {
+        public static void PrepareHeaders(HttpRequestMessage message, string key, string secret)
+        {
+            message.Headers.Add("X-Api-Key", key);
+            message.Headers.Add("X-Api-Secret", secret);
+        }
+
         public static string CreateAuthorizeEndPoint()
         {
             return "v" + Constants.Version + "/authenticate";
         }
 
-        public static void PrepareHeaders(HttpRequestMessage message, string key, string secret)
+        public static string CreateUpdateHooksEndPoint()
         {
-            message.Headers.Add("X-Api-Key", key);
-            message.Headers.Add("X-Api-Secret", secret);
+            return "v" + Constants.Version + "/settings/webhooks";
+        }
+
+        public static string CreateGetLoginTokenEndpoint()
+        {
+            return "v" + Constants.Version + "/token";
+        }
+
+        public static string CreateSetTokenDataEndpoint()
+        {
+            return "v" + Constants.Version + "/token/session";
+        }
+
+        public static string CreateUpdateAppLinkingEndPoint()
+        {
+            return "v" + Constants.Version + "/settings/linking";
         }
 
         public static Dictionary<string, string> ConstructPayloadForAuthorization(string email, UnloqMethod method, string ip = "",
@@ -49,24 +69,33 @@ namespace UnloqAPI
             };
         }
 
-        public static async Task<UAuthResponse> BuildUAuthResponse(HttpResponseMessage response)
+        public static Dictionary<string, string> ConstructPayloadForUpdateHooks(string loginPath, string logoutPath)
         {
-            return await response.Content.ReadAsAsync<UAuthResponse>();
+            return new Dictionary<string, string>
+            {
+                { "login", loginPath },
+                { "logout", logoutPath }
+            };
+        }
+
+        public static Dictionary<string, string> ConstructPayloadForUpdateAppLinking(string linkPath, string unlinkPath, bool disable)
+        {
+            return new Dictionary<string, string>
+            {
+                { "link", linkPath },
+                { "unlink", unlinkPath },
+                { "disable", disable.ToString() }
+            };
+        }
+
+        public static async Task<UResponse> BuildUResponse(HttpResponseMessage response)
+        {
+            return await response.Content.ReadAsAsync<UResponse>();
         }
 
         public static async Task<UGetTokenResponse> BuildUGetTokenResponse(HttpResponseMessage response)
         {
             return await response.Content.ReadAsAsync<UGetTokenResponse>();
-        }
-
-        public static string CreateGetLoginTokenEndpoint()
-        {
-            return "v" + Constants.Version + "/token";
-        }
-
-        public static string CreateSetTokenDataEndpoint()
-        {
-            return "v" + Constants.Version + "/token/session";
         }
     }
 }

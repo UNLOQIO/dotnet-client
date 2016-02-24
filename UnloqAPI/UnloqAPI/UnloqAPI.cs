@@ -32,9 +32,7 @@ namespace UnloqAPI
             message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForAuthorization(credentials.Email, options.Method, options.Ip, credentials.Token));
             var result = await _httpClient.SendAsync(message);
 
-            var sterge = await Utils.BuildUAuthResponse(result);
-
-            return sterge;
+            return await Utils.BuildUResponse(result);
         }
 
         public async Task<IUResponse> GetLoginToken(string token, SessionData sessionData = null)
@@ -78,6 +76,47 @@ namespace UnloqAPI
             var hashedSign = sha.ComputeHash(Encoding.UTF8.GetBytes(signed));
 
             return signature == Encoding.UTF8.GetString(hashedSign);
+        }
+
+        public bool VerifyLink(string key, string signature, string deviceSecret)
+        {
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(signature)) return false;
+            if (string.IsNullOrEmpty(deviceSecret))
+            {
+                Console.WriteLine("UNLOQ.verifyLink: provided deviceSecret is not a string or empty.");
+                return false;
+            }
+
+            var sha = new HMACSHA256(Encoding.UTF8.GetBytes(deviceSecret));
+            var signedKey = sha.ComputeHash(Encoding.UTF8.GetBytes(key));
+
+            return signature == Encoding.UTF8.GetString(signedKey);
+        }
+
+        public async Task<IUResponse> UpdateHooks(string loginPath, string logoutPath)
+        {
+            if (string.IsNullOrEmpty(loginPath) || string.IsNullOrEmpty(logoutPath)) throw new Exception("One or both of the parameters are missing!");
+
+            var endpoint = Utils.CreateUpdateHooksEndPoint();
+            var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
+            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForUpdateHooks(loginPath, logoutPath));
+            var result = await _httpClient.SendAsync(message);
+
+            return await Utils.BuildUResponse(result);
+        }
+
+        public async Task<IUResponse> UpdateAppLinking(string linkPath, string unlinkPath, bool disable = false)
+        {
+            if (string.IsNullOrEmpty(linkPath) || string.IsNullOrEmpty(unlinkPath)) throw new Exception("linkPath or unlinkPath is missing!");
+
+            var endpoint = Utils.CreateUpdateAppLinkingEndPoint();
+            var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
+            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForUpdateAppLinking(linkPath, unlinkPath, disable));
+            var result = await _httpClient.SendAsync(message);
+
+            return await Utils.BuildUResponse(result);
         }
     }
 }
