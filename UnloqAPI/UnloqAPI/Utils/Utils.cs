@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using UnloqAPI.Responses;
 
-namespace UnloqAPI
+namespace UnloqAPI.Utils
 {
     public class Utils
     {

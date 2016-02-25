@@ -1,4 +1,6 @@
-﻿namespace UnloqAPI
+﻿using UnloqAPI.Utils;
+
+namespace UnloqAPI.Responses
 {
     public class UResponse : IUResponse
     {

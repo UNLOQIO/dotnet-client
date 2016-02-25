@@ -1,4 +1,6 @@
-﻿namespace UnloqAPI
+﻿using UnloqAPI.Utils;
+
+namespace UnloqAPI.Responses
 {
     //Special response, for GetLoginToken method
     public class UGetTokenResponse : IUResponse

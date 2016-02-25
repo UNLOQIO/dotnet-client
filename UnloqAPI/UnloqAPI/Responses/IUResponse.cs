@@ -1,4 +1,4 @@
-﻿namespace UnloqAPI
+﻿namespace UnloqAPI.Responses
 {
     public interface IUResponse
     {

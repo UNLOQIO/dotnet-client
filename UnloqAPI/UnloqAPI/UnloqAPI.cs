@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using UnloqAPI.Responses;
+using UnloqAPI.Utils;
 
 namespace UnloqAPI
 {
@@ -26,26 +28,26 @@ namespace UnloqAPI
         {
             if (string.IsNullOrEmpty(credentials.Email)) throw new Exception("Email is NOT optional!");
 
-            var endpoint = Utils.CreateAuthorizeEndPoint();
+            var endpoint = Utils.Utils.CreateAuthorizeEndPoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
-            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
-            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForAuthorization(credentials.Email, options.Method, options.Ip, credentials.Token));
+            Utils.Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.Utils.ConstructPayloadForAuthorization(credentials.Email, options.Method, options.Ip, credentials.Token));
             var result = await _httpClient.SendAsync(message);
 
-            return await Utils.BuildUResponse(result);
+            return await Utils.Utils.BuildUResponse(result);
         }
 
         public async Task<IUResponse> GetLoginToken(string token, SessionData sessionData = null)
         {
             if (string.IsNullOrEmpty(token)) throw new Exception("Token is NOT optional!");
 
-            var endpoint = Utils.CreateGetLoginTokenEndpoint();
+            var endpoint = Utils.Utils.CreateGetLoginTokenEndpoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
-            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
-            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForGetToken(token, sessionData));
+            Utils.Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.Utils.ConstructPayloadForGetToken(token, sessionData));
             var result = await _httpClient.SendAsync(message);
 
-            var resp = await Utils.BuildUGetTokenResponse(result);
+            var resp = await Utils.Utils.BuildUGetTokenResponse(result);
 
             return resp;
         }
@@ -54,10 +56,10 @@ namespace UnloqAPI
         {
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(sessionData.SessionId)) throw new Exception("Token or Session ID is missing!");
 
-            var endpoint = Utils.CreateSetTokenDataEndpoint();
+            var endpoint = Utils.Utils.CreateSetTokenDataEndpoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
-            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
-            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForSetToken(token, sessionData));
+            Utils.Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.Utils.ConstructPayloadForSetToken(token, sessionData));
             await _httpClient.SendAsync(message);
         }
 
@@ -97,26 +99,26 @@ namespace UnloqAPI
         {
             if (string.IsNullOrEmpty(loginPath) || string.IsNullOrEmpty(logoutPath)) throw new Exception("One or both of the parameters are missing!");
 
-            var endpoint = Utils.CreateUpdateHooksEndPoint();
+            var endpoint = Utils.Utils.CreateUpdateHooksEndPoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
-            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
-            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForUpdateHooks(loginPath, logoutPath));
+            Utils.Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.Utils.ConstructPayloadForUpdateHooks(loginPath, logoutPath));
             var result = await _httpClient.SendAsync(message);
 
-            return await Utils.BuildUResponse(result);
+            return await Utils.Utils.BuildUResponse(result);
         }
 
         public async Task<IUResponse> UpdateAppLinking(string linkPath, string unlinkPath, bool disable = false)
         {
             if (string.IsNullOrEmpty(linkPath) || string.IsNullOrEmpty(unlinkPath)) throw new Exception("linkPath or unlinkPath is missing!");
 
-            var endpoint = Utils.CreateUpdateAppLinkingEndPoint();
+            var endpoint = Utils.Utils.CreateUpdateAppLinkingEndPoint();
             var message = new HttpRequestMessage(HttpMethod.Post, new Uri(Constants.Gateway + "/" + endpoint));
-            Utils.PrepareHeaders(message, _apiKey, _apiSecret);
-            message.Content = new FormUrlEncodedContent(Utils.ConstructPayloadForUpdateAppLinking(linkPath, unlinkPath, disable));
+            Utils.Utils.PrepareHeaders(message, _apiKey, _apiSecret);
+            message.Content = new FormUrlEncodedContent(Utils.Utils.ConstructPayloadForUpdateAppLinking(linkPath, unlinkPath, disable));
             var result = await _httpClient.SendAsync(message);
 
-            return await Utils.BuildUResponse(result);
+            return await Utils.Utils.BuildUResponse(result);
         }
     }
 }

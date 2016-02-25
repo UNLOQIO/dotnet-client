@@ -1,4 +1,4 @@
-﻿namespace UnloqAPI
+﻿namespace UnloqAPI.Utils
 {
     public static class Constants
     {

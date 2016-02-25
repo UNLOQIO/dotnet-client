@@ -1,4 +1,4 @@
-﻿namespace UnloqAPI
+﻿namespace UnloqAPI.Utils
 {
     public class GetTokenData
     {
